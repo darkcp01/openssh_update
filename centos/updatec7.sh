@@ -77,7 +77,7 @@ fi
 echo "更新执行文件"
 \cp -f /usr/local/openssh/sbin/sshd /usr/sbin/
 \cp -f /usr/local/openssh/bin/* /usr/bin/
-\cp -f /usr/local/openssh/libexec/* /usr/libexec/openssh/
+\cp -f /usr/local/openssh/libexec/* /usr/libexec/
 ##sed -i 's/Type=notify/Type=simple/' /usr/lib/systemd/system/sshd.service
 mv -f /usr/lib/systemd/system/sshd.service /usr/lib/systemd/system/sshd.service_bak >/dev/null 2>&1
 \cp -f /home/update/openssh-${SSH_VER}/contrib/redhat/sshd.init /etc/init.d/sshd
