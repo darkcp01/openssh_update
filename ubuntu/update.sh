@@ -12,10 +12,6 @@ fi
 \cp -f /usr/lib/x86_64-linux-gnu/libcrypto.so.1* /home/update
 \cp -f /usr/lib/x86_64-linux-gnu/libssl.so.1* /home/update
 \cp -f /etc/init.d/ssh /home/update/ssh.bak >/dev/null 2>&1
-mv -f /usr/bin/openssl /usr/bin/openssl.bak >/dev/null 2>&1
-mv -f /usr/include/openssl /usr/include/openssl.bak >/dev/null 2>&1
-mv -b /usr/local/openssh /usr/local/openssh.bak >/dev/null 2>&1
-mv -b /usr/local/openssl /usr/local/openssl.bak >/dev/null 2>&1
 
 echo "安装依赖中,时间较长,请勿退出"
 apt update >/dev/null 2>&1
@@ -45,6 +41,9 @@ else
 fi
 
 echo "安装openssl中......"
+mv -f /usr/bin/openssl /usr/bin/openssl.bak >/dev/null 2>&1
+mv -f /usr/include/openssl /usr/include/openssl.bak >/dev/null 2>&1
+mv -b /usr/local/openssl /usr/local/openssl.bak >/dev/null 2>&1
 cd /home/update/openssl-${SSL_VER}
 ./config  --prefix=/usr/local/openssl   shared zlib >> /home/update/info${DATE_DAY}.log 2>& 1
 make >> /home/update/info${DATE_DAY}.log 2>& 1
@@ -64,8 +63,9 @@ echo "/usr/local/openssl/lib" > /etc/ld.so.conf.d/openssl.conf  && ldconfig -v >
 openssl version
 
 echo "安装openssh中......"
+mv -b /usr/local/openssh /usr/local/openssh.bak >/dev/null 2>&1
 cd /home/update/openssh-${SSH_VER}
-./configure --prefix=/usr/local/openssh --sysconfdir=/etc/ssh --with-pam --with-zlib --with-ssl-dir=/usr/local/openssl --with-openssl-includes=/usr/local/openssl/include --with-md5-passwords --mandir=/usr/share/man  --without-openssl-header-check >> /home/update/info${DATE_DAY}.log 2>& 1
+./configure --prefix=/usr/local/openssh --sysconfdir=/etc/ssh --with-pam --with-zlib --with-ssl-dir=/usr/local/openssl --with-openssl-includes=/usr/local/openssl/include --with-md5-passwords --with-tcp-wrappers --mandir=/usr/share/man  --without-openssl-header-check >> /home/update/info${DATE_DAY}.log 2>& 1
 make >> /home/update/info${DATE_DAY}.log 2>& 1
 make install >> /home/update/info${DATE_DAY}.log 2>& 1
 
@@ -78,9 +78,9 @@ else
 fi
 
 echo "更新执行文件"
-cp -f /usr/local/openssh/sbin/sshd /usr/sbin/
-cp -f /usr/local/openssh/bin/* /usr/bin/
-cp -f /usr/local/openssh/libexec/* /usr/libexec/
+\cp -f /usr/local/openssh/sbin/sshd /usr/sbin/
+\cp -f /usr/local/openssh/bin/* /usr/bin/
+\cp -f /usr/local/openssh/libexec/* /usr/lib/openssh/
 echo "备份sshd_config,ssh_config为sshd_config.bak,ssh_config.bak"
 mv -b /etc/ssh/sshd_config /etc/ssh/sshd_config.bak
 mv -b /etc/ssh/ssh_config /etc/ssh/ssh_config.bak
