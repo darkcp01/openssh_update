@@ -80,7 +80,7 @@ fi
 echo "更新执行文件"
 \cp -f /usr/local/openssh/sbin/sshd /usr/sbin/
 \cp -f /usr/local/openssh/bin/* /usr/bin/
-\cp -f /usr/local/openssh/libexec/* /usr/lib/openssh/
+\cp -f /usr/local/openssh/libexec/* /usr/libexec/
 echo "备份sshd_config,ssh_config为sshd_config.bak,ssh_config.bak"
 mv -b /etc/ssh/sshd_config /etc/ssh/sshd_config.bak
 mv -b /etc/ssh/ssh_config /etc/ssh/ssh_config.bak
