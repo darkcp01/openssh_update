@@ -1,5 +1,5 @@
 #!/bin/bash
-### 只支持 Ubuntu 18 20 不支持22 勇士可以试下16
+###放到/home/update下执行,只支持 Ubuntu 18 20 不支持22 勇士可以试下16
 SSL_VER=1.1.1q
 SSH_VER=9.0p1
 
@@ -19,26 +19,23 @@ apt install gcc make zlib1g zlib1g-dev libssl-dev libpam0g-dev -y >/dev/null 2>&
 apt remove openssh-server openssh-client -y >/dev/null 2>&1
 echo "卸载旧版本openssh"
 
-function jieya
-{
-	echo "解压中......"
+echo "下载openssl和openssh安装包"
+if [ ! -f openssl-"${SSL_VER}".tar.gz ];then
+	wget https://www.openssl.org/source/openssl-"${SSL_VER}".tar.gz --no-check-certificate
+fi
+
+if [ ! -f openssh-"${SSH_VER}".tar.gz ];then
+    wget https://mirrors.aliyun.com/openssh/portable/openssh-"${SSH_VER}".tar.gz --no-check-certificate
+fi
+
+if [ -f openssl-"${SSL_VER}".tar.gz ] && [ -f openssh-"${SSH_VER}".tar.gz ];then
+    echo "解压中......"
 	tar -xvzf /home/update/openssl-"${SSL_VER}".tar.gz >/dev/null 2>&1
 	tar -xvzf /home/update/openssh-"${SSH_VER}".tar.gz >/dev/null 2>&1
-}
-
-if [  -f  openssl-"${SSL_VER}".tar.gz ] && [ -f openssh-"${SSH_VER}".tar.gz ];then
-	jieya
 else
-	echo "下载openssl和openssh安装包"
-	wget https://www.openssl.org/source/openssl-"${SSL_VER}".tar.gz --no-check-certificate
-	wget https://mirrors.aliyun.com/openssh/portable/openssh-"${SSH_VER}".tar.gz --no-check-certificate
-	if [  -f  openssl-"${SSL_VER}".tar.gz ] && [ -f openssh-"${SSH_VER}".tar.gz ];then
-		jieya
-	else
-		echo "下载失败，清空/home/update后重试,或者将openssl-"${SSL_VER}".tar.gz和openssh-"${SSH_VER}".tar.gz文件放到该目录下重新执行"
-		exit 1
-	fi	
-fi
+	echo "下载失败，清空/home/update后重试,或者将openssl-"${SSL_VER}".tar.gz和openssh-"${SSH_VER}".tar.gz文件放到该目录下重新执行"
+	exit 1
+fi	
 
 echo "安装openssl中......"
 mv -f /usr/bin/openssl /usr/bin/openssl.bak >/dev/null 2>&1
@@ -81,6 +78,11 @@ echo "更新执行文件"
 \cp -f /usr/local/openssh/sbin/sshd /usr/sbin/
 \cp -f /usr/local/openssh/bin/* /usr/bin/
 \cp -f /usr/local/openssh/libexec/* /usr/libexec/
+##sed -i 's/Type=notify/Type=simple/' /usr/lib/systemd/system/sshd.service
+##mv -f /usr/lib/systemd/system/sshd.service /usr/lib/systemd/system/sshd.service_bak >/dev/null 2>&1
+if [ ! -f /etc/init.d/ssh ] ;then
+    \cp -f /home/update/openssh-${SSH_VER}/opensshd.init /etc/init.d/ssh
+fi
 echo "备份sshd_config,ssh_config为sshd_config.bak,ssh_config.bak"
 mv -b /etc/ssh/sshd_config /etc/ssh/sshd_config.bak
 mv -b /etc/ssh/ssh_config /etc/ssh/ssh_config.bak
