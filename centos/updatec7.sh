@@ -1,5 +1,5 @@
 #!/bin/bash
-##仅适用于CentOS 7
+##放到/home/update下执行,仅适用于CentOS 7
 SSL_VER=1.1.1q
 SSH_VER=9.0p1
 
@@ -16,25 +16,22 @@ fi
 echo "安装依赖中,时间较长,请勿退出"
 yum install gcc gcc-c++ glibc make autoconf openssl-devel pcre-devel pam-devel zlib zlib-devel tcp_wrappers-devel tcp_wrappers -y >/dev/null 2>&1
 
-function jieya
-{
-	echo "解压中......"
+echo "下载openssl和openssh安装包"
+if [ ! -f openssl-"${SSL_VER}".tar.gz ];then
+	wget https://www.openssl.org/source/openssl-"${SSL_VER}".tar.gz --no-check-certificate
+fi
+
+if [ ! -f openssh-"${SSH_VER}".tar.gz ];then
+    wget https://mirrors.aliyun.com/openssh/portable/openssh-"${SSH_VER}".tar.gz --no-check-certificate
+fi
+
+if [ -f openssl-"${SSL_VER}".tar.gz ] && [ -f openssh-"${SSH_VER}".tar.gz ];then
+    echo "解压中......"
 	tar -xvzf /home/update/openssl-"${SSL_VER}".tar.gz >/dev/null 2>&1
 	tar -xvzf /home/update/openssh-"${SSH_VER}".tar.gz >/dev/null 2>&1
-}
-
-if [  -f  openssl-"${SSL_VER}".tar.gz ] && [ -f openssh-"${SSH_VER}".tar.gz ];then
-	jieya
 else
-	echo "下载openssl和openssh安装包"
-	wget https://www.openssl.org/source/openssl-"${SSL_VER}".tar.gz
-	wget https://mirrors.aliyun.com/openssh/portable/openssh-"${SSH_VER}".tar.gz
-	if [  -f  openssl-"${SSL_VER}".tar.gz ] && [ -f openssh-"${SSH_VER}".tar.gz ];then
-		jieya
-	else
-		echo "下载失败，清空/home/update后重试,或者将openssl-"${SSL_VER}".tar.gz和openssh-"${SSH_VER}".tar.gz文件放到该目录下重新执行"
-		exit 1
-	fi	
+	echo "下载失败，清空/home/update后重试,或者将openssl-"${SSL_VER}".tar.gz和openssh-"${SSH_VER}".tar.gz文件放到该目录下重新执行"
+	exit 1
 fi
 
 echo "安装openssl中......"
