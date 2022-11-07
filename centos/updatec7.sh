@@ -1,6 +1,6 @@
 #!/bin/bash
 ##放到/home/update下执行,自行先配置好yum源，仅适用于CentOS 7
-SSL_VER=1.1.1q
+SSL_VER=1.1.1s
 SSH_VER=9.1p1
 
 path="/home/update"
