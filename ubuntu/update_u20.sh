@@ -1,7 +1,7 @@
 #!/bin/bash
 ###请放到/home/update下执行,自行配置好apt源,只支持 Ubuntu 18 20 不支持22 勇士可以试下16
-SSL_VER=1.1.1s
-SSH_VER=9.1p1
+SSL_VER=1.1.1t
+SSH_VER=9.2p1
 
 path="/home/update"
 if [ $path != "$PWD" ];then
