@@ -1,7 +1,7 @@
 #!/bin/bash
 ##放到/home/update下执行,自行先配置好yum源，仅适用于CentOS 7
-SSL_VER=1.1.1t
-SSH_VER=9.3p1
+SSL_VER=1.1.1w
+SSH_VER=9.5p1
 
 path="/home/update"
 if [ $path != "$PWD" ];then
