@@ -11,7 +11,7 @@ fi
 
 \cp -f /usr/lib64/libcrypto.so.1* /home/update
 \cp -f /usr/lib64/libssl.so.1* /home/update
-\cp -f /etc/init.d/sshd /home/update/ssh.bak >/dev/null 2>&1
+\cp -f /etc/init.d/sshd /home/update/sshd.bak >/dev/null 2>&1
 
 echo "安装依赖中,时间较长,请勿退出"
 yum install gcc gcc-c++ glibc make autoconf openssl-devel pcre-devel pam-devel zlib zlib-devel tcp_wrappers-devel tcp_wrappers -y >/dev/null 2>&1
