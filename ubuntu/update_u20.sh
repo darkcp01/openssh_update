@@ -1,5 +1,5 @@
 #!/bin/bash
-###请放到/home/update下执行,自行配置好apt源,只支持 Ubuntu 18 20 
+###请放到/home/update下执行,自行配置好apt源,只支持Ubuntu 18 20 
 SSL_VER=1.1.1w
 SSH_VER=9.7p1
 
