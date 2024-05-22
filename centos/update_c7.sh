@@ -39,7 +39,7 @@ mv -f /usr/bin/openssl /usr/bin/openssl.bak >/dev/null 2>&1
 mv -f /usr/include/openssl /usr/include/openssl.bak >/dev/null 2>&1
 mv -b /usr/local/openssl /usr/local/openssl.bak >/dev/null 2>&1
 cd /home/update/openssl-${SSL_VER}
-./config  --prefix=/usr/local/openssl   shared zlib >> /home/update/info${DATE_DAY}.log 2>& 1
+./config  --prefix=/usr/local/openssl enable-ssl enable-ssl3 enable-ssl3-method enable-tls  enable-tls1_3 shared zlib >> /home/update/info${DATE_DAY}.log 2>& 1
 make >> /home/update/info${DATE_DAY}.log 2>& 1
 make install >> /home/update/info${DATE_DAY}.log 2>& 1
 
